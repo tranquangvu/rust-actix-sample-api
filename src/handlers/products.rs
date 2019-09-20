@@ -11,11 +11,23 @@ pub fn create(new_product: web::Json<NewProduct>) -> Result<HttpResponse, HttpRe
   new_product
     .create()
     .map(|product| HttpResponse::Ok().json(product))
-    .map_err(|e| HttpResponse::InternalServerError().json(e.to_string()))
+    .map_err(|e| {
+      HttpResponse::InternalServerError().json(e.to_string())
+    })
 }
 
 pub fn show(id: web::Path<i32>) -> Result<HttpResponse, HttpResponse> {
   Product::find(&id)
     .map(|product| HttpResponse::Ok().json(product))
-    .map_err(|e| HttpResponse::InternalServerError().json(e.to_string()))
+    .map_err(|e| {
+      HttpResponse::InternalServerError().json(e.to_string())
+    })
+}
+
+pub fn destroy(id: web::Path<i32>) -> Result<HttpResponse, HttpResponse> {
+  Product::destroy(&id)
+    .map(|_| HttpResponse::Ok().json(()))
+    .map_err(|e| {
+      HttpResponse::InternalServerError().json(e.to_string())
+    })
 }

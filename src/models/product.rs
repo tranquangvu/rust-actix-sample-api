@@ -9,11 +9,11 @@ pub struct Product {
   pub price: Option<i32>
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Deserialize)]
 #[table_name="products"]
 pub struct NewProduct {
-  pub name: Option<String>,
-  pub stock: Option<f64>,
+  pub name: String,
+  pub stock: f64,
   pub price: Option<i32>
 }
 
@@ -34,5 +34,18 @@ impl ProductList {
       .expect("Error loading products");
 
     ProductList(result)
+  }
+}
+
+impl NewProduct {
+  pub fn create(&self) -> Result<Product, diesel::result::Error> {
+    use diesel::RunQueryDsl;
+    use crate::db_connection::establish_connection;
+
+    let connection = establish_connection();
+    diesel::insert_into(products::table)
+      .values(self)
+      .get_result(&connection)
+
   }
 }

@@ -24,6 +24,7 @@ fn main() {
     .service(
       web::resource("/products")
         .route(web::get().to_async(handlers::products::index))
+        .route(web::post().to_async(handlers::products::create))
     )
   })
   .bind("127.0.0.1:8000")

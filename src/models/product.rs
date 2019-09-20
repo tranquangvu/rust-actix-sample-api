@@ -49,3 +49,14 @@ impl NewProduct {
 
   }
 }
+
+impl Product {
+  pub fn find(id: &i32) -> Result<Product, diesel::result::Error> {
+    use diesel::QueryDsl;
+    use diesel::RunQueryDsl;
+    use crate::db_connection::establish_connection;
+
+    let connection = establish_connection();
+    products::table.find(id).first(&connection)
+  }
+}

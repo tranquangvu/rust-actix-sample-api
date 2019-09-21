@@ -29,3 +29,24 @@ Practice rust language by building sample API by actix framework
     cargo run
   ```
   Server run on `127.0.0.1:8000`
+* Example requests
+  - Get all products
+    ```
+      curl http://127.0.0.1:8000/products
+    ```
+  - Create products
+    ```
+      curl http://127.0.0.1:8000/products -H "Content-Type: application/json" -d '{"name": "socks", "stock": 7, "price": 2}'
+    ```
+  - Show product
+    ```
+      curl http://127.0.0.1:8000/products/1
+    ```
+  - Update product
+    ```
+      curl -X PATCH http://127.0.0.1:8000/products/1 -H "Content-Type: application/json" -d '{"stock": 8}'
+    ```
+  - Delete product
+    ```
+      curl -X DELETE http://127.0.0.1:8000/products/1 -H "Content-Type: application/json"
+    ```

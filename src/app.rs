@@ -1,6 +1,3 @@
-
-use actix_web::{web, App, HttpServer};
-
 pub fn boot() {
   let sys = actix::System::new("mystore");
 

@@ -1,4 +1,4 @@
-use crate::schema::products;
+use crate::config::schema::products;
 use serde::{Serialize, Deserialize};
 
 #[derive(Queryable, Serialize, Deserialize)]
@@ -24,8 +24,8 @@ impl ProductList {
   pub fn list() -> Self {
     use diesel::RunQueryDsl;
     use diesel::QueryDsl;
-    use crate::schema::products::dsl::*;
-    use crate::db_connection::establish_connection;
+    use crate::config::schema::products::dsl::*;
+    use crate::config::db_connection::establish_connection;
 
     let connection = establish_connection();
     let result = products
@@ -40,7 +40,7 @@ impl ProductList {
 impl NewProduct {
   pub fn create(&self) -> Result<Product, diesel::result::Error> {
     use diesel::RunQueryDsl;
-    use crate::db_connection::establish_connection;
+    use crate::config::db_connection::establish_connection;
 
     let connection = establish_connection();
     diesel::insert_into(products::table)
@@ -54,7 +54,7 @@ impl Product {
   pub fn find(id: &i32) -> Result<Product, diesel::result::Error> {
     use diesel::QueryDsl;
     use diesel::RunQueryDsl;
-    use crate::db_connection::establish_connection;
+    use crate::config::db_connection::establish_connection;
 
     let connection = establish_connection();
     products::table.find(id).first(&connection)
@@ -63,8 +63,8 @@ impl Product {
   pub fn destroy(id: &i32) -> Result<(), diesel::result::Error> {
     use diesel::QueryDsl;
     use diesel::RunQueryDsl;
-    use crate::schema::products::dsl;
-    use crate::db_connection::establish_connection;
+    use crate::config::schema::products::dsl;
+    use crate::config::db_connection::establish_connection;
 
     let connection = establish_connection();
 
@@ -75,8 +75,8 @@ impl Product {
   pub fn update(id: &i32, new_product: &NewProduct) -> Result<(), diesel::result::Error> {
     use diesel::QueryDsl;
     use diesel::RunQueryDsl;
-    use crate::schema::products::dsl;
-    use crate::db_connection::establish_connection;
+    use crate::config::schema::products::dsl;
+    use crate::config::db_connection::establish_connection;
 
     let connection = establish_connection();
 

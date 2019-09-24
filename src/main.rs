@@ -1,8 +1,3 @@
-pub mod schema;
-pub mod db_connection;
-pub mod models;
-pub mod handlers;
-
 #[macro_use]
 extern crate diesel;
 extern crate dotenv;
@@ -12,31 +7,12 @@ extern crate serde_derive;
 extern crate actix;
 extern crate actix_web;
 
-use actix_web::{web, App, HttpServer};
+pub mod routes;
+pub mod config;
+pub mod models;
+pub mod handlers;
+pub mod app;
 
 fn main() {
-  let sys = actix::System::new("mystore");
-
-  HttpServer::new(|| { App::new()
-    .service(
-      web::resource("/").route(web::get().to_async(handlers::home::index))
-    )
-    .service(
-      web::resource("/products")
-        .route(web::get().to_async(handlers::products::index))
-        .route(web::post().to_async(handlers::products::create))
-    )
-    .service(
-      web::resource("/products/{id}")
-        .route(web::get().to_async(handlers::products::show))
-        .route(web::delete().to_async(handlers::products::destroy))
-        .route(web::patch().to_async(handlers::products::update))
-    )
-  })
-  .bind("127.0.0.1:8000")
-  .unwrap()
-  .start();
-
-  println!("Started http server: 127.0.0.1:8000");
-  let _ = sys.run();
+  app::boot();
 }

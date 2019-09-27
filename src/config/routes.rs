@@ -1,11 +1,11 @@
-use actix_web::{web, App, HttpServer};
+use actix_web::{web};
+use crate::handlers;
 
-use crate::handlers as handlers;
-
-pub fn config() {
-  HttpServer::new(|| { App::new()
+pub fn init(service_config: &mut web::ServiceConfig) {
+  service_config
     .service(
-      web::resource("/").route(web::get().to_async(handlers::home::index))
+      web::resource("/")
+        .route(web::get().to_async(handlers::home::index))
     )
     .service(
       web::resource("/products")
@@ -17,9 +17,5 @@ pub fn config() {
         .route(web::get().to_async(handlers::products::show))
         .route(web::delete().to_async(handlers::products::destroy))
         .route(web::patch().to_async(handlers::products::update))
-    )
-  })
-  .bind("127.0.0.1:8000")
-  .unwrap()
-  .start();  
+    );
 }

@@ -7,7 +7,6 @@ extern crate serde_derive;
 extern crate actix;
 extern crate actix_web;
 
-pub mod routes;
 pub mod config;
 pub mod models;
 pub mod handlers;
